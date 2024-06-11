@@ -4,7 +4,7 @@ function Home(props: any) {
     return (
         <>
             <div>
-                Bem vindo ao site
+                Bem vindo ao site!!
             </div>
         </>
     );

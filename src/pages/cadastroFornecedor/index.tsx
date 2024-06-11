@@ -2,7 +2,7 @@ import { Button, Form, Input, Modal, Space, Table } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 
-function CadastroProduto(props: any) {
+function CadastroFornecedor(props: any) {
 
     const [produtos, setProdutos] = useState([]);
     const [valueNome, setValueNome] = useState<string>("");
@@ -55,14 +55,14 @@ function CadastroProduto(props: any) {
             key: 'id',
         },
         {
-            title: 'Nome do produto',
+            title: 'Nome do fornecedor',
             dataIndex: 'nome',
             key: 'nome',
         },
         {
-            title: 'Descrição do produto',
-            dataIndex: 'descricao',
-            key: 'descricao',
+            title: 'Produto fornecido',
+            dataIndex: 'produtoFornecido',
+            key: 'produtoFornecido',
         },
         {
             title: 'Ações',
@@ -73,7 +73,7 @@ function CadastroProduto(props: any) {
                         showModal();
                         setEditId(record.id);
                         setEditValueNome(record.nome);
-                        setEditValueDescricao(record.descricao);
+                        setEditValueDescricao(record.produtoFornecido);
                     }}>Editar</Button>
                     <Button danger onClick={() => deleteProdutos(record.id)}>Delete</Button>
                 </Space>
@@ -83,7 +83,7 @@ function CadastroProduto(props: any) {
 
 
     const getProdutos = () => {
-        axios.get("http://localhost:5214/produto")
+        axios.get("http://localhost:5214/fornecedor")
             .then((resposta) => {
                 setProdutos(resposta.data);
             });
@@ -92,21 +92,21 @@ function CadastroProduto(props: any) {
     const postProdutos = (nome: string, descricao: string) => {
         const envio = {
             nome: nome,
-            descricao: descricao
+            produtoFornecido: descricao
         };
-        axios.post("http://localhost:5214/produto", envio).then(() => getProdutos());
+        axios.post("http://localhost:5214/fornecedor", envio).then(() => getProdutos());
     }
 
     const deleteProdutos = (id: number) => {
-        axios.delete(`http://localhost:5214/produto/${id}`).then(() => getProdutos());
+        axios.delete(`http://localhost:5214/fornecedor/${id}`).then(() => getProdutos());
     }
 
     const putProdutos = (id: number, nome: string, descricao: string) => {
         const envio = {
             nome: nome,
-            descricao: descricao
+            produtoFornecido: descricao
         };
-        axios.put(`http://localhost:5214/produto/${id}`, envio).then(() => getProdutos());
+        axios.put(`http://localhost:5214/fornecedor/${id}`, envio).then(() => getProdutos());
     }
 
     useEffect(() => {
@@ -130,7 +130,7 @@ function CadastroProduto(props: any) {
                     autoComplete="off"
                 >
                     <Form.Item<string>
-                        label="Nome do produto"
+                        label="Nome do fornecedor"
                         name="nome"
                         id="nome"
                     >
@@ -138,7 +138,7 @@ function CadastroProduto(props: any) {
                     </Form.Item>
 
                     <Form.Item<string>
-                        label="Descrição do produto"
+                        label="Produto fornecido"
                         name="descricao"
                         id="descricao"
                     >
@@ -153,11 +153,11 @@ function CadastroProduto(props: any) {
                 </Form>
             </div>
             <div>
-                <h3>Produtos cadastrados</h3>
+                <h3>Fornecedores cadastrados</h3>
                 <Table dataSource={produtos} columns={columns} />
                 {createModal()}
             </div>
         </>
     );
 }
-export default CadastroProduto;
+export default CadastroFornecedor;
